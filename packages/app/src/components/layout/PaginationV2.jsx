@@ -1,10 +1,8 @@
 import NativeInput from "components/form/NativeInput";
 import { useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import isInputElement from "../../utilities/domUtils";
 
 const PaginationV2 = ({ page, total, onPageChange }) => {
-    const navigate = useNavigate();
     const previousEnabled = page + 1 > 1;
     const nextEnabled = page + 1 < total;
 
@@ -47,7 +45,11 @@ const PaginationV2 = ({ page, total, onPageChange }) => {
     return (
         <nav className="pagination is-centered is-rounded" role="navigation" aria-label="pagination">
             <button
-                onClick={() => navigate(`/auditlog?page=${page}`)}
+                type="button"
+                onClick={(ev) => {
+                    ev.preventDefault();
+                    onPreviousPageChange();
+                }}
                 className="pagination-previous"
                 tooltip="Previous [P]"
                 disabled={!previousEnabled}
@@ -73,7 +75,11 @@ const PaginationV2 = ({ page, total, onPageChange }) => {
                 </li>
             </ul>
             <button
-                onClick={() => navigate(`/auditlog?page=${page + 2}`)}
+                type="button"
+                onClick={(ev) => {
+                    ev.preventDefault();
+                    onNextPageChange();
+                }}
                 className="pagination-next"
                 tooltip="Next [N]"
                 disabled={!nextEnabled}
